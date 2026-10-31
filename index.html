@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人簡介</title>
+    
+    <!-- 引入 Tailwind CSS 與 Font Awesome 圖標 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 引入可愛手寫與日系手帳字體: Gaegu (手寫英文) + Zen Maru Gothic (圓潤中文) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 引入手寫英文字體 Gaegu -->
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 引入繁體專用：jf open 粉圓字型 CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/openhuninn@1.1/font.css">
+    
+    <style>
+        /* 基礎字體與手繪線條風格 */
+        body {
+            font-family: 'jf-openhuninn', 'Gaegu', 'Noto Sans TC', sans-serif;
+            background-color: #E2F1F8;
+            background-image: radial-gradient(#FFFFFF 2px, transparent 2px);
+            background-size: 24px 24px;
+            color: #4A5568;
+        }
+
+       .font-hand {
+           font-family: 'jf-openhuninn', 'Gaegu', cursive, sans-serif;
+        }
+        /* 3D 翻轉核心樣式 */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* 手繪虛線自訂滾動條 */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 旋轉小標籤與紙膠帶裝飾 */
+        .washi-tape {
+            background-color: rgba(255, 235, 205, 0.85);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            transform: rotate(-1.5deg);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- 頂部手帳導覽列 -->
+    <header class="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
+        <nav class="bg-white/95 border-2 border-[#BCD8E6] rounded-full px-6 py-2.5 shadow-sm flex items-center space-x-6 text-sm md:text-base font-bold text-slate-600">
+            <a href="#home" class="hover:text-sky-500 transition-colors">首頁</a>
+            <span class="text-sky-300">•</span>
+            <a href="#about" class="hover:text-sky-500 transition-colors">關於我</a>
+            <span class="text-sky-300">•</span>
+            <a href="#friends" class="hover:text-sky-500 transition-colors">我的朋友</a>
+            <span class="text-sky-300">•</span>
+            <a href="#fandom" class="hover:text-sky-500 transition-colors">關於追星</a>
+        </nav>
+    </header>
+
+    <!-- 1. 首頁 (Home Section) -->
+    <section id="home" class="min-h-screen flex flex-col items-center justify-center pt-20 px-4 text-center">
+        <div class="relative bg-white border-2 border-[#CBD5E1] rounded-3xl p-8 md:p-12 max-w-xl w-full shadow-sm">
+            <!-- 紙膠帶手繪小裝飾 -->
+            <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-28 h-6 wasi-tape bg-[#FEE2E2]/80 border-b border-rose-200"></div>
+            
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-700 tracking-wider mb-4 mt-2">
+                歡迎光臨
+            </h1>
+            <p class="text-slate-500 text-sm md:text-base mb-8 leading-relaxed">
+                おはよう...₍⸍⸌̣ʷ̣̫⸍̣⸌₎!
+            </p>
+
+            <!-- 首頁中央個人迎賓照/插畫 -->
+            <div class="w-40 h-40 md:w-48 md:h-48 mx-auto rounded-2xl overflow-hidden border-2 border-dashed border-sky-300 p-1 mb-8 bg-sky-50/50">
+                <!-- 【替換照片】首頁歡迎照片 -->
+                <img src="我1.jpg" 
+                     alt="Welcome Photo" 
+                     class="w-full h-full object-cover rounded-xl">
+            </div>
+
+            <div class="flex justify-center gap-4">
+                <a href="#about" class="inline-block bg-[#E0F2FE] hover:bg-[#BAE6FD] text-sky-800 text-sm font-bold px-6 py-2.5 rounded-full border border-sky-300 transition-colors">
+                    認識我 ➔
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. 關於我 (About Me - 橫式 ID 學生證 + 背面三等分照片) -->
+    <section id="about" class="min-h-screen flex flex-col items-center justify-center py-20 px-4">
+        <!-- 標題 -->
+        <div class="text-center mb-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-700 inline-block border-b-2 border-dashed border-sky-400 pb-1">關於我</h2>
+            <p class="text-xs text-slate-500 mt-2">（點一下卡片…！）</p>
+        </div>
+
+        <!-- 橫式 ID 卡容器 (預設維持標準 3:2 橫卡比例) -->
+        <div class="w-full max-w-2xl h-80 md:h-96 perspective-1000 cursor-pointer" onclick="toggleCardFlip(this)">
+            <div class="relative w-full h-full transform-style-3d shadow-md rounded-3xl">
+                
+                <!-- ID 卡正面 (橫向學生證版型) -->
+                <div class="absolute inset-0 w-full h-full backface-hidden bg-white border-2 border-[#CBD5E1] rounded-3xl p-6 md:p-8 flex flex-col justify-between">
+                    <!-- 卡片頂部 Header 欄 -->
+                    <div class="flex justify-between items-center border-b-2 border-dashed border-slate-200 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-300"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-300"></span>
+                            <span class="w-3 h-3 rounded-full bg-sky-300"></span>
+                            <span class="text-xs tracking-widest font-bold text-slate-400 ml-2 uppercase">ID Card</span>
+                        </div>
+                        <span class="text-xs bg-sky-100 text-sky-700 font-bold px-3 py-1 rounded-full border border-sky-200">NO.2005-1018</span>
+                    </div>
+
+                    <!-- 卡片主體：左側照片 + 右側詳細資料 -->
+                    <div class="grid grid-cols-12 gap-6 my-auto items-center">
+                        <!-- 大頭貼 (3 欄) -->
+                        <div class="col-span-4 flex flex-col items-center">
+                            <div class="w-24 h-32 md:w-28 md:h-36 rounded-xl overflow-hidden border-2 border-slate-300 p-0.5 bg-slate-50 shadow-inner">
+                                <!-- 【替換照片】證件大頭照 -->
+                                <img src="我1.jpg" 
+                                     alt="Profile ID Photo" 
+                                     class="w-full h-full object-cover rounded-lg">
+                            </div>
+                        </div>
+
+                        <!-- 簡介資料 (8 欄) -->
+                        <div class="col-span-8 space-y-2 text-sm md:text-base text-slate-600">
+                            <div class="flex items-center border-b border-slate-100 pb-1">
+                                <span class="w-16 font-bold text-slate-400 text-xs">姓名</span>
+                                <span class="font-bold text-slate-800">陳妤甄</span>
+                            </div>
+                            <div class="flex items-center border-b border-slate-100 pb-1">
+                                <span class="w-16 font-bold text-slate-400 text-xs">暱稱</span>
+                                <span>餘震</span>
+                            </div>
+                            <div class="flex items-center border-b border-slate-100 pb-1">
+                                <span class="w-16 font-bold text-slate-400 text-xs">生日</span>
+                                <span>10 月 18 日</span>
+                            </div>
+                            <div class="flex items-center border-b border-slate-100 pb-1">
+                                <span class="w-16 font-bold text-slate-400 text-xs">星座</span>
+                                <span>天秤座 ♊</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-16 font-bold text-slate-400 text-xs">MBTI</span>
+                                <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded-md font-bold text-xs border border-green-200">ENFP 競選者</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 底部手繪條碼插畫裝飾 -->
+                    <div class="flex justify-between items-end border-t border-slate-100 pt-2">
+                        <span class="text-[10px] text-slate-400">SIGNATURE: ★★★★★</span>
+                        <div class="flex items-center space-x-1">
+                            <span class="w-1 h-5 bg-slate-400 inline-block"></span>
+                            <span class="w-0.5 h-5 bg-slate-400 inline-block"></span>
+                            <span class="w-1.5 h-5 bg-slate-400 inline-block"></span>
+                            <span class="w-0.5 h-5 bg-slate-400 inline-block"></span>
+                            <span class="w-2 h-5 bg-slate-400 inline-block"></span>
+                            <span class="w-0.5 h-5 bg-slate-400 inline-block"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ID 卡背面 (三等分照片版型) -->
+                <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white border-2 border-[#CBD5E1] rounded-3xl p-6 md:p-8 flex flex-col justify-between">
+                    <div class="flex justify-between items-center border-b border-dashed border-slate-200 pb-2">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">About Me</span>
+                        <span class="text-xs text-sky-500 font-bold">(^^)</span>
+                    </div>
+
+                    <!-- 三等分排版照片牆 -->
+                    <div class="grid grid-cols-3 gap-3 md:gap-4 my-auto h-48 md:h-56">
+                        <!-- 生活照 1 -->
+                        <div class="h-full rounded-2xl overflow-hidden border-2 border-slate-200 bg-slate-50 p-1 group">
+                            <!-- 【替換照片】ID 卡背面 - 生活照 1 -->
+                            <img src="我2.jpg" 
+                                 alt="Life 1" 
+                                 class="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <!-- 生活照 2 -->
+                        <div class="h-full rounded-2xl overflow-hidden border-2 border-slate-200 bg-slate-50 p-1 group">
+                            <!-- 【替換照片】ID 卡背面 - 生活照 2 -->
+                            <img src="我3.jpg" 
+                                 alt="Life 2" 
+                                 class="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <!-- 生活照 3 -->
+                        <div class="h-full rounded-2xl overflow-hidden border-2 border-slate-200 bg-slate-50 p-1 group">
+                            <!-- 【替換照片】ID 卡背面 - 生活照 3 -->
+                            <img src="我4.jpg" 
+                                 alt="Life 3" 
+                                 class="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                    </div>
+
+                    <p class="text-center text-xs text-slate-400 font-hand">“喵喵喵”</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 我的朋友 (My Friends - 滾動式 3:4 直式雙面翻轉卡) -->
+    <section id="friends" class="py-20 px-4 max-w-6xl mx-auto">
+        <!-- 標題與左右滑動按鈕 -->
+        <div class="flex justify-between items-end mb-8 px-2">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-700 border-b-2 border-dashed border-sky-400 pb-1 inline-block">我的朋友</h2>
+                <p class="text-xs text-slate-500 mt-2">我有很多笨蛋朋友，這是一部分。</p>
+            </div>
+            <!-- 左右箭頭 -->
+            <div class="flex space-x-2">
+                <button onclick="scrollFriends('left')" class="w-10 h-10 rounded-full bg-white border-2 border-slate-200 flex items-center justify-center text-slate-600 hover:bg-sky-50 transition-colors shadow-sm">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <button onclick="scrollFriends('right')" class="w-10 h-10 rounded-full bg-white border-2 border-slate-200 flex items-center justify-center text-slate-600 hover:bg-sky-50 transition-colors shadow-sm">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 橫向滾動容器 (6位朋友) -->
+        <div id="friends-carousel" class="flex space-x-6 overflow-x-auto hide-scrollbar py-4 px-2 scroll-smooth">
+            
+            <!-- 朋友卡片模板函式渲染處 (包含正反面翻轉) -->
+            <!-- 朋友 1 -->
+            <div class="flex-shrink-0 w-64 md:w-72 aspect-[3/4] perspective-1000 cursor-pointer" onclick="toggleCardFlip(this)">
+                <div class="relative w-full h-full transform-style-3d shadow-md rounded-2xl">
+                    <!-- 正面：3:4 滿版照片 + 底部名字標籤 -->
+                    <div class="absolute inset-0 w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-2xl overflow-hidden flex flex-col">
+                        <div class="relative w-full h-full">
+                            <!-- 【替換照片】朋友 1 照片 -->
+                            <img src="陳.jpg" 
+                                 alt="Friend 1" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 flex justify-between items-end">
+                                <div>
+                                    <h3 class="text-white text-lg font-bold tracking-wide">陳圭尼</h3>
+                                    <span class="text-sky-200 text-xs">喜歡黑皮凱蒂</span>
+                                </div>
+                                <span class="text-xs bg-white/20 text-white backdrop-blur-sm px-2 py-1 rounded-md">↺</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 背面：簡介、認識過程、想對他說的話 -->
+                    <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white border-2 border-[#CBD5E1] rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="border-b border-dashed border-slate-200 pb-2 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800">陳圭尼</h3>
+                                <span class="text-xs text-sky-500 font-bold">偶的室友1</span>
+                            </div>
+                            <div class="space-y-4 text-xs md:text-sm text-slate-600">
+                                <div>
+                                    <span class="font-bold text-slate-400 block mb-0.5">● 我們怎麼認識的：</span>
+                                    <p class="leading-relaxed">天天玩樂園認識的</p>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-slate-400 block mb-0.5">● 想對你說的話：</span>
+                                    <p class="leading-relaxed bg-sky-50 p-3 rounded-xl border border-sky-100">不要再把平板從床上摔下去了</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center text-[10px] text-slate-400">點擊翻回照片</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 朋友 2 -->
+            <div class="flex-shrink-0 w-64 md:w-72 aspect-[3/4] perspective-1000 cursor-pointer" onclick="toggleCardFlip(this)">
+                <div class="relative w-full h-full transform-style-3d shadow-md rounded-2xl">
+                    <div class="absolute inset-0 w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-2xl overflow-hidden flex flex-col">
+                        <div class="relative w-full h-full">
+                            <!-- 【替換照片】朋友 2 照片 -->
+                            <img src="張.jpg" 
+                                 alt="Friend 2" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 flex justify-between items-end">
+                                <div>
+                                    <h3 class="text-white text-lg font-bold tracking-wide">張丹三</h3>
+                                    <span class="text-sky-200 text-xs">喜歡黑色</span>
+                                </div>
+                                <span class="text-xs bg-white/20 text-white backdrop-blur-sm px-2 py-1 rounded-md">↺</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white border-2 border-[#CBD5E1] rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="border-b border-dashed border-slate-200 pb-2 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800">張丹三</h3>
+                                <span class="text-xs text-sky-500 font-bold">偶的室友2</span>
+                            </div>
+                            <div class="space-y-4 text-xs md:text-sm text-slate-600">
+                                <div>
+                                    <span class="font-bold text-slate-400 block mb-0.5">● 我們怎麼認識的：</span>
+                                    <p class="leading-relaxed">天天玩樂園認識的</p>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-slate-400 block mb-0.5">● 想對你說的話：</span>
+                                    <p class="leading-relaxed bg-sky-50 p-3 rounded-xl border border-sky-100">所以種出魔豆了要退游了嗎</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center text-[10px] text-slate-400">點擊翻回照片</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 朋友 3 -->
+            <div class="flex-shrink-0 w-64 md:w-72 aspect-[3/4] perspective-1000 cursor-pointer" onclick="toggleCardFlip(this)">
+                <div class="relative w-full h-full transform-style-3d shadow-md rounded-2xl">
+                    <div class="absolute inset-0 w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-2xl overflow-hidden flex flex-col">
+                        <div class="relative w-full h-full">
+                            <!-- 【替換照片】朋友 3 照片 -->
+                            <img src="李.jpg" 
+                                 alt="Friend 3" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 flex justify-between items-end">
+                                <div>
+                                    <h3 class="text-white text-lg font-bold tracking-wide">李雞針</h3>
+                                    <span class="text-sky-200 text-xs">一個笨笨的人</span>
+                                </div>
+                                <span class="text-xs bg-white/20 text-white backdrop-blur-sm px-2 py-1 rounded-md">↺</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white border-2 border-[#CBD5E1] rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="border-b border-dashed border-slate-200 pb-2 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800">李雞針</h3>
+                                <span class="text-xs text-sky-500 font-bold">高中同學</span>
+                            </div>
+                            <div class="space-y-4 text-xs md:text-sm text-slate-600">
+                                <div>
+                                    <span class="font-bold text-slate-400 block mb-0.5">● 我們怎麼認識的：</span>
+                                    <p class="leading-relaxed">忘記了，好像是高中新生群裡亂加的</p>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-slate-400 block mb-0.5">● 想對你說的話：</span>
+                                    <p class="leading-relaxed bg-sky-50 p-3 rounded-xl border border-sky-100">我們下次一起進場真的要記得拍照喔(好看的)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center text-[10px] text-slate-400">點擊翻回照片</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 朋友 4 -->
+            <div class="flex-shrink-0 w-64 md:w-72 aspect-[3/4] perspective-1000 cursor-pointer" onclick="toggleCardFlip(this)">
+                <div class="relative w-full h-full transform-style-3d shadow-md rounded-2xl">
+                    <div class="absolute inset-0 w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-2xl overflow-hidden flex flex-col">
+                        <div class="relative w-full h-full">
+                            <!-- 【替換照片】朋友 4 照片 -->
+                            <img src="冰.jpg" 
+                                 alt="Friend 4" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 flex justify-between items-end">
+                                <div>
+                                    <h3 class="text-white text-lg font-bold tracking-wide">冰塊</h3>
+                                    <span class="text-sky-200 text-xs">from malaysia</span>
+                                </div>
+                                <span class="text-xs bg-white/20 text-white backdrop-blur-sm px-2 py-1 rounded-md">↺</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white border-2 border-[#CBD5E1] rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="border-b border-dashed border-slate-200 pb-2 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800">冰塊</h3>
+                                <span class="text-xs text-sky-500 font-bold">認識最久的網友</span>
+                            </div>
+                            <div class="space-y-4 text-xs md:text-sm text-slate-600">
+                                <div>
+                                    <span class="font-bold text-slate-400 block mb-0.5">● 我們怎麼認識的：</span>
+                                    <p class="leading-relaxed">剛上樓的時候認識的</p>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-slate-400 block mb-0.5">● 想對你說的話：</span>
+                                    <p class="leading-relaxed bg-sky-50 p-3 rounded-xl border border-sky-100">我現在好想吃刁民喔。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center text-[10px] text-slate-400">點擊翻回照片</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 朋友 5 -->
+            <div class="flex-shrink-0 w-64 md:w-72 aspect-[3/4] perspective-1000 cursor-pointer" onclick="toggleCardFlip(this)">
+                <div class="relative w-full h-full transform-style-3d shadow-md rounded-2xl">
+                    <div class="absolute inset-0 w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-2xl overflow-hidden flex flex-col">
+                        <div class="relative w-full h-full">
+                            <!-- 【替換照片】朋友 5 照片 -->
+                            <img src="侯.jpg" 
+                                 alt="Friend 5" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 flex justify-between items-end">
+                                <div>
+                                    <h3 class="text-white text-lg font-bold tracking-wide">侯杏妍</h3>
+                                    <span class="text-sky-200 text-xs">每天都很早睡</span>
+                                </div>
+                                <span class="text-xs bg-white/20 text-white backdrop-blur-sm px-2 py-1 rounded-md">↺</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white border-2 border-[#CBD5E1] rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="border-b border-dashed border-slate-200 pb-2 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800">侯杏妍</h3>
+                                <span class="text-xs text-sky-500 font-bold">最近有初老症狀</span>
+                            </div>
+                            <div class="space-y-4 text-xs md:text-sm text-slate-600">
+                                <div>
+                                    <span class="font-bold text-slate-400 block mb-0.5">● 我們怎麼認識的：</span>
+                                    <p class="leading-relaxed">我跟冰冰想拿他的應援去留言後就一發不可收拾了</p>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-slate-400 block mb-0.5">● 想對你說的話：</span>
+                                    <p class="leading-relaxed bg-sky-50 p-3 rounded-xl border border-sky-100">不要再當賭徒了然後下次帶我去看汪叔叔</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center text-[10px] text-slate-400">點擊翻回照片</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 朋友 6 -->
+            <div class="flex-shrink-0 w-64 md:w-72 aspect-[3/4] perspective-1000 cursor-pointer" onclick="toggleCardFlip(this)">
+                <div class="relative w-full h-full transform-style-3d shadow-md rounded-2xl">
+                    <div class="absolute inset-0 w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-2xl overflow-hidden flex flex-col">
+                        <div class="relative w-full h-full">
+                            <!-- 【替換照片】朋友 6 照片 -->
+                            <img src="蘇.jpg" 
+                                 alt="Friend 6" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 flex justify-between items-end">
+                                <div>
+                                    <h3 class="text-white text-lg font-bold tracking-wide">酥肉泥</h3>
+                                    <span class="text-sky-200 text-xs">寫過中文字帖</span>
+                                </div>
+                                <span class="text-xs bg-white/20 text-white backdrop-blur-sm px-2 py-1 rounded-md">↺</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white border-2 border-[#CBD5E1] rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="border-b border-dashed border-slate-200 pb-2 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800">酥肉泥</h3>
+                                <span class="text-xs text-sky-500 font-bold">張婧儀毒唯</span>
+                            </div>
+                            <div class="space-y-4 text-xs md:text-sm text-slate-600">
+                                <div>
+                                    <span class="font-bold text-slate-400 block mb-0.5">● 我們怎麼認識的：</span>
+                                    <p class="leading-relaxed">他寫小作文給我，然後就隔著12個小時的時差聊起來了</p>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-slate-400 block mb-0.5">● 想對你說的話：</span>
+                                    <p class="leading-relaxed bg-sky-50 p-3 rounded-xl border border-sky-100">不要再看紅果了，應援做完了嗎</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center text-[10px] text-slate-400">點擊翻回照片</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 4. 關於追星 (About Fandom - 橫式雙面翻轉卡) -->
+    <section id="fandom" class="py-20 px-4 max-w-5xl mx-auto">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-700 border-b-2 border-dashed border-sky-400 pb-1 inline-block">關於追星</h2>
+            <p class="text-xs text-slate-500 mt-2">沒有很花心吧…？</p>
+        </div>
+
+        <div class="space-y-10">
+
+            <!-- 追星卡片 1：時代少年團 (TNT) -->
+            <div class="w-full h-80 md:h-96 perspective-1000 cursor-pointer" onclick="toggleCardFlip(this)">
+                <div class="relative w-full h-full transform-style-3d shadow-md rounded-3xl">
+                    <!-- 正面：滿版橫式團體照 + 左下角資訊 -->
+                    <div class="absolute inset-0 w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-3xl overflow-hidden">
+                        <!-- 【替換照片】時代少年團 團體照 -->
+                        <img src="tnt.jpg" 
+                             alt="TNT Group" 
+                             class="w-full h-full object-cover">
+                        <!-- 左下角團名與成員名單 -->
+                        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6 text-white flex justify-between items-end">
+                            <div>
+                                <h3 class="text-2xl md:text-3xl font-bold tracking-wide">時代少年團 (Teens In Times)</h3>
+                                <p class="text-xs md:text-sm text-slate-200 mt-1">成員：馬嘉祺 / 丁程鑫 / 宋亞軒 / 劉耀文 / 張真源 / 嚴浩翔 / 賀峻霖</p>
+                            </div>
+                            <span class="text-xs bg-white/20 text-white backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/30">↺</span>
+                        </div>
+                    </div>
+
+                    <!-- 背面：本命副命、愛歌 Top 3、演唱會記錄 -->
+                    <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white border-2 border-[#CBD5E1] rounded-3xl p-6 md:p-8 flex flex-col justify-between">
+                        <div class="flex justify-between items-center border-b border-dashed border-slate-200 pb-2">
+                            <h4 class="text-lg font-bold text-slate-800">時代少年團</h4>
+                            <span class="text-xs text-sky-500 font-bold">點擊翻回團照 ↺</span>
+                        </div>
+
+                        <!-- 內容兩欄式手帳排版 -->
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-auto items-center">
+                            <!-- 左側：本命 & 副命照 (5欄) -->
+                            <div class="md:col-span-5 flex space-x-4 justify-center">
+                                <!-- 本命 -->
+                                <div class="text-center">
+                                    <div class="w-20 h-24 md:w-24 md:h-28 rounded-xl overflow-hidden border-2 border-amber-300 p-0.5 bg-amber-50">
+                                        <!-- 【替換照片】TNT 本命照片 -->
+                                        <img src="馬.png" 
+                                             alt="Bias TNT" 
+                                             class="w-full h-full object-cover rounded-lg">
+                                    </div>
+                                    <span class="inline-block mt-1 text-xs font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">本命：馬嘉祺</span>
+                                </div>
+                                <!-- 副命 -->
+                                <div class="text-center">
+                                    <div class="w-20 h-24 md:w-24 md:h-28 rounded-xl overflow-hidden border-2 border-sky-300 p-0.5 bg-sky-50">
+                                        <!-- 【替換照片】TNT 副命照片 -->
+                                        <img src="宋.png" 
+                                             alt="Bias 2 TNT" 
+                                             class="w-full h-full object-cover rounded-lg">
+                                    </div>
+                                    <span class="inline-block mt-1 text-xs font-bold text-sky-700 bg-sky-100 px-2 py-0.5 rounded-full">副命：宋亞軒</span>
+                                </div>
+                            </div>
+
+                            <!-- 右側：Top 3 愛歌與演唱會 (7欄) -->
+                            <div class="md:col-span-7 space-y-3 text-xs md:text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <span class="font-bold text-slate-700 block mb-1">🎧 最喜歡的歌 Top 3：</span>
+                                    <ol class="list-decimal list-inside space-y-0.5 text-slate-500">
+                                        <li>《相遇》</li>
+                                        <li>《漸暖》</li>
+                                        <li>《I LIKE U LIKE》</li>
+                                    </ol>
+                                </div>
+                                <div class="bg-sky-50/60 p-3 rounded-xl border border-sky-100">
+                                    <span class="font-bold text-sky-800 block mb-1">🎫 看過的演唱會：</span>
+                                    <ul class="space-y-0.5 text-slate-500">
+                                        <li>• 2026.05.02 時代少年團「加冠禮」演唱會-「加冠」廣州站</li>
+                                        <li>• 2026.08.06 時代少年團「加冠禮」演唱會-收官場 上海站</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- 追星卡片 2：NMIXX -->
+            <div class="w-full h-80 md:h-96 perspective-1000 cursor-pointer" onclick="toggleCardFlip(this)">
+                <div class="relative w-full h-full transform-style-3d shadow-md rounded-3xl">
+                    <!-- 正面 -->
+                    <div class="absolute inset-0 w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-3xl overflow-hidden">
+                        <!-- 【替換照片】NMIXX 團體照 -->
+                        <img src="nmixx.jpg" 
+                             alt="NMIXX Group" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6 text-white flex justify-between items-end">
+                            <div>
+                                <h3 class="text-2xl md:text-3xl font-bold tracking-wide">NMIXX</h3>
+                                <p class="text-xs md:text-sm text-slate-200 mt-1">成員：Lily / Haewon / Sullyoon / Bae / Jiwoo / Kyujin</p>
+                            </div>
+                            <span class="text-xs bg-white/20 text-white backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/30">↺</span>
+                        </div>
+                    </div>
+
+                    <!-- 背面 -->
+                    <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white border-2 border-[#CBD5E1] rounded-3xl p-6 md:p-8 flex flex-col justify-between">
+                        <div class="flex justify-between items-center border-b border-dashed border-slate-200 pb-2">
+                            <h4 class="text-lg font-bold text-slate-800">NMIXX</h4>
+                            <span class="text-xs text-sky-500 font-bold">點擊翻回團照 ↺</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-auto items-center">
+                            <!-- 本命與副命 -->
+                            <div class="md:col-span-5 flex space-x-4 justify-center">
+                                <div class="text-center">
+                                    <div class="w-20 h-24 md:w-24 md:h-28 rounded-xl overflow-hidden border-2 border-rose-300 p-0.5 bg-rose-50">
+                                        <!-- 【替換照片】NMIXX 本命照片 -->
+                                        <img src="嫄.jpg" 
+                                             alt="Bias NMIXX" 
+                                             class="w-full h-full object-cover rounded-lg">
+                                    </div>
+                                    <span class="inline-block mt-1 text-xs font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full">本命：Haewon</span>
+                                </div>
+                                <div class="text-center">
+                                    <div class="w-20 h-24 md:w-24 md:h-28 rounded-xl overflow-hidden border-2 border-sky-300 p-0.5 bg-sky-50">
+                                        <!-- 【替換照片】NMIXX 副命照片 -->
+                                        <img src="薛.jpg" 
+                                             alt="Bias 2 NMIXX" 
+                                             class="w-full h-full object-cover rounded-lg">
+                                    </div>
+                                    <span class="inline-block mt-1 text-xs font-bold text-sky-700 bg-sky-100 px-2 py-0.5 rounded-full">副命：Sullyoon</span>
+                                </div>
+                            </div>
+
+                            <!-- Top 3 與演唱會 -->
+                            <div class="md:col-span-7 space-y-3 text-xs md:text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <span class="font-bold text-slate-700 block mb-1">🎧 最喜歡的歌 Top 3：</span>
+                                    <ol class="list-decimal list-inside space-y-0.5 text-slate-500">
+                                        <li>《Party O'Clock》</li>
+                                        <li>《Heavy Serenade》</li>
+                                        <li>《LOUD》</li>
+                                    </ol>
+                                </div>
+                                <div class="bg-sky-50/60 p-3 rounded-xl border border-sky-100">
+                                    <span class="font-bold text-sky-800 block mb-1">🎫 看過的演唱會：</span>
+                                    <ul class="space-y-0.5 text-slate-500">
+                                        <li>• 2023.06.18 NMIXX SHOWCASE TOUR 《NICE TO MIXX YOU》台北站</li>
+                                        <li>• 2023.06.19 NMIXX SHOWCASE TOUR 《NICE TO MIXX YOU》台北站</li>
+                                        <li>• 2024.05.19 NMIXX CHANGE UP : MIXX UNIVERSITY 台北站</li>
+                                        <li>• 2025.04.19 NMIXX CHANGE UP : MIXX LAB 台北站</li>
+                                        <li>• 2026.07.12 NMIXX 1ST WORLD TOUR <EPISODE 1: ZERO FRONTIER> 高雄站</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- 追星卡片 3：Hearts2Hearts -->
+            <div class="w-full h-80 md:h-96 perspective-1000 cursor-pointer" onclick="toggleCardFlip(this)">
+                <div class="relative w-full h-full transform-style-3d shadow-md rounded-3xl">
+                    <!-- 正面 -->
+                    <div class="absolute inset-0 w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-3xl overflow-hidden">
+                        <!-- 【替換照片】Hearts2Hearts 團體照 -->
+                        <img src="h2h.jpg" 
+                             alt="Hearts2Hearts Group" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6 text-white flex justify-between items-end">
+                            <div>
+                                <h3 class="text-2xl md:text-3xl font-bold tracking-wide">Hearts2Hearts</h3>
+                                <p class="text-xs md:text-sm text-slate-200 mt-1">成員：CARMEN / JIWOO / YUHA / STELLA / JUUN / A-NA / IAN / YE-ON</p>
+                            </div>
+                            <span class="text-xs bg-white/20 text-white backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/30">↺</span>
+                        </div>
+                    </div>
+
+                    <!-- 背面 -->
+                    <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white border-2 border-[#CBD5E1] rounded-3xl p-6 md:p-8 flex flex-col justify-between">
+                        <div class="flex justify-between items-center border-b border-dashed border-slate-200 pb-2">
+                            <h4 class="text-lg font-bold text-slate-800">Hearts2Hearts</h4>
+                            <span class="text-xs text-sky-500 font-bold">點擊翻回團照 ↺</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-auto items-center">
+                            <!-- 本命與副命 -->
+                            <div class="md:col-span-5 flex space-x-4 justify-center">
+                                <div class="text-center">
+                                    <div class="w-20 h-24 md:w-24 md:h-28 rounded-xl overflow-hidden border-2 border-purple-300 p-0.5 bg-purple-50">
+                                        <!-- 【替換照片】Hearts2Hearts 本命照片 -->
+                                        <img src="安.jpg" 
+                                             alt="Bias H2H" 
+                                             class="w-full h-full object-cover rounded-lg">
+                                    </div>
+                                    <span class="inline-block mt-1 text-xs font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full">本命：IAN</span>
+                                </div>
+                                <div class="text-center">
+                                    <div class="w-20 h-24 md:w-24 md:h-28 rounded-xl overflow-hidden border-2 border-sky-300 p-0.5 bg-sky-50">
+                                        <!-- 【替換照片】Hearts2Hearts 副命照片 -->
+                                        <img src="順.jpg" 
+                                             alt="Bias 2 H2H" 
+                                             class="w-full h-full object-cover rounded-lg">
+                                    </div>
+                                    <span class="inline-block mt-1 text-xs font-bold text-sky-700 bg-sky-100 px-2 py-0.5 rounded-full">副命：A-NA</span>
+                                </div>
+                                  <div class="text-center">
+                                    <div class="w-20 h-24 md:w-24 md:h-28 rounded-xl overflow-hidden border-2 border-sky-300 p-0.5 bg-sky-50">
+                                        <!-- 【替換照片】Hearts2Hearts 副命照片 -->
+                                        <img src="覽.jpg" 
+                                             alt="Bias 2 H2H" 
+                                             class="w-full h-full object-cover rounded-lg">
+                                    </div>
+                                    <span class="inline-block mt-1 text-xs font-bold text-sky-700 bg-sky-100 px-2 py-0.5 rounded-full">副命：YUHA</span>
+                                </div>
+                            </div>
+
+                            <!-- Top 3 與演唱會 -->
+                            <div class="md:col-span-7 space-y-3 text-xs md:text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <span class="font-bold text-slate-700 block mb-1">🎧 最喜歡的歌 Top 3：</span>
+                                    <ol class="list-decimal list-inside space-y-0.5 text-slate-500">
+                                        <li>《STYLE》</li>
+                                        <li>《FOCUS》</li>
+                                        <li>《Pretty Please》</li>
+                                    </ol>
+                                </div>
+                                <div class="bg-sky-50/60 p-3 rounded-xl border border-sky-100">
+                                    <span class="font-bold text-sky-800 block mb-1">🎫 看過的演唱會：</span>
+                                    <ul class="space-y-0.5 text-slate-500">
+                                        <li>• ✖</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 頁尾 (Footer) -->
+    <footer class="text-center py-12 text-slate-400 text-xs border-t border-sky-200/50">
+        <p>看到這裡的人都很棒◡̎.ᐟ.ᐟ</p>
+    </footer>
+
+    <!-- JavaScript 翻轉與輪播滑動控制 -->
+    <script>
+        // 點擊卡片 3D 翻轉函式
+        function toggleCardFlip(container) {
+            const cardInner = container.firstElementChild;
+            cardInner.classList.toggle('rotate-y-180');
+        }
+
+        // 朋友名單橫向左右平滑捲動
+        function scrollFriends(direction) {
+            const carousel = document.getElementById('friends-carousel');
+            const scrollDistance = 320;
+            if (direction === 'left') {
+                carousel.scrollBy({ left: -scrollDistance, behavior: 'smooth' });
+            } else {
+                carousel.scrollBy({ left: scrollDistance, behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
